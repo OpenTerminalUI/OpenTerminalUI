@@ -1,0 +1,18 @@
+node:
+  version: '24.11.0'
+  packageManager: 'bun'
+  bun:
+    version: '1.3.6'
+  # Optimize dependency deduplication
+  deduplicationStrategy: 'highest'
+  syncProjectWorkspaceDependencies: true
+
+rust:
+  version: 'system' # Dùng Rust từ Nix environment
+  syncToolchainConfig: true
+
+typescript:
+  createMissingConfig: true
+  rootConfigFileName: 'tsconfig.base.json'
+  rootOptions:
+    moduleResolution: 'bundler'

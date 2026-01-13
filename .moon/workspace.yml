@@ -1,0 +1,12 @@
+projects:
+  core: 'packages/core'
+  ui: 'packages/ui'
+
+vcs:
+  manager: 'git'
+  defaultBranch: 'main'
+
+# Caching settings
+runner:
+  cacheLifetime: '7 days'
+  inheritColorsForPipedTasks: true
