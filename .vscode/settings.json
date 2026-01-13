@@ -1,13 +1,25 @@
 {
-  "cSpell.words": [
-    "clippy",
-    "napi",
-    "nixos",
-    "nixpkgs",
-    "numtide",
-    "openterminal",
-    "oxalica",
-    "pkgs",
-    "rustflags"
-  ]
+    "cSpell.words": [
+        "clippy",
+        "commitlint",
+        "napi",
+        "nixos",
+        "nixpkgs",
+        "numtide",
+        "openterminal",
+        "oxalica",
+        "pkgs",
+        "rustflags"
+    ],
+    "chat.promptFilesRecommendations": {
+        "speckit.constitution": true,
+        "speckit.specify": true,
+        "speckit.plan": true,
+        "speckit.tasks": true,
+        "speckit.implement": true
+    },
+    "chat.tools.terminal.autoApprove": {
+        ".specify/scripts/bash/": true,
+        ".specify/scripts/powershell/": true
+    }
 }

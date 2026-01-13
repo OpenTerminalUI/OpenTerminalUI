@@ -12,12 +12,16 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "ncu": "bunx npm-check-updates",
-    "ncu:update": "bunx npm-check-updates -u && bun install"
+    "ncu:update": "bunx npm-check-updates -u && bun install",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
     "@napi-rs/cli": "^3.5.1",
     "@types/node": "^25.0.6",
+    "husky": "^9.1.7",
     "npm-check-updates": "^18.0.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
