@@ -6,6 +6,31 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# ================================
+# 🦀 Rust
+# ================================
+target/
+*.node
+Cargo.lock
+
+# ================================
+# ❄️ Nix
+# ================================
+.direnv/
+result
+result-*
+
+# ================================
+# 🌑 Moon
+# ================================
+.moon/cache/
+.moon/docker/
+
+# ================================
+# 🍞 Bun
+# ================================
+bun.lockb
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
