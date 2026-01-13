@@ -1,0 +1,13 @@
+language: 'rust'
+
+tasks:
+  build:
+    command: 'napi build --platform --release'
+    inputs:
+      - 'src/**/*'
+      - 'Cargo.toml'
+      - 'build.rs'
+    outputs:
+      - 'index.node'
+      - 'index.js'
+      - 'index.d.ts'
