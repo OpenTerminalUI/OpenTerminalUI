@@ -1,0 +1,45 @@
+# Cargo Configuration
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+# Incremental compilation for faster rebuilds
+incremental = true
+# Number of parallel jobs (0 = auto-detect based on CPU cores)
+jobs = 0
+
+[target.x86_64-unknown-linux-gnu]
+# Linker optimizations for Linux
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[target.x86_64-apple-darwin]
+# macOS x86_64 specific flags
+rustflags = ["-C", "link-arg=-undefined", "-C", "link-arg=dynamic_lookup"]
+
+[target.aarch64-apple-darwin]
+# macOS ARM64 (Apple Silicon) specific flags
+rustflags = ["-C", "link-arg=-undefined", "-C", "link-arg=dynamic_lookup"]
+
+[env]
+# Environment variables for NAPI-RS
+CARGO_INCREMENTAL = "1"
+
+[net]
+# Use git CLI for fetching (more reliable in some environments)
+git-fetch-with-cli = true
+# Retry failed network requests
+retry = 3
+
+[registries.crates-io]
+protocol = "sparse"
+
+[alias]
+# Useful aliases
+b = "build"
+c = "check"
+t = "test"
+r = "run"
+br = "build --release"
+tr = "test --release"
+# NAPI shortcuts
+napi-build = "build --release"
+napi-debug = "build"
