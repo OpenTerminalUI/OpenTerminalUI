@@ -1,0 +1,14 @@
+language: 'typescript'
+
+tasks:
+  build:
+    command: 'tsup src/index.tsx --format cjs,esm --dts'
+    inputs:
+      - 'src/**/*'
+      - 'tsconfig.json'
+    outputs:
+      - 'dist'
+  
+  dev:
+    command: 'tsup src/index.tsx --format cjs,esm --dts --watch'
+    local: true
