@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, Box } from 'ink';
+import { Box, Text } from 'ink';
+import type React from 'react';
 
 // ============================================
 // 📦 Basic Components
@@ -54,17 +54,8 @@ export interface CardProps {
 /**
  * Card component with optional title and border
  */
-export const Card: React.FC<CardProps> = ({ 
-  title, 
-  children, 
-  borderColor = 'gray' 
-}) => (
-  <Box 
-    flexDirection="column" 
-    borderStyle="round" 
-    borderColor={borderColor}
-    paddingX={1}
-  >
+export const Card: React.FC<CardProps> = ({ title, children, borderColor = 'gray' }) => (
+  <Box flexDirection="column" borderStyle="round" borderColor={borderColor} paddingX={1}>
     {title && (
       <Box marginBottom={1}>
         <Title>{title}</Title>
@@ -78,4 +69,10 @@ export const Card: React.FC<CardProps> = ({
 // 📤 Exports
 // ============================================
 
-export { Text, Box } from 'ink';
+export { Box, Text } from 'ink';
+export { Button } from './components/Button';
+export { CodeViewer } from './components/CodeViewer';
+export { CommandPalette } from './components/CommandPalette';
+export { Dashboard } from './components/Dashboard';
+export { FileTree } from './components/FileTree';
+export { Input } from './components/Input';

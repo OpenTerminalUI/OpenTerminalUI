@@ -13,7 +13,13 @@
   },
   "scripts": {
     "build": "tsup src/index.tsx --format cjs,esm --dts",
-    "dev": "tsup src/index.tsx --format cjs,esm --dts --watch"
+    "dev": "tsup src/index.tsx --format cjs,esm --dts --watch",
+    "demo": "bun run scripts/run-demo.ts",
+    "editor": "bun run scripts/run-editor.ts"
+  },
+  "dependencies": {
+    "@openterminal-ui/core": "workspace:*",
+    "ink-text-input": "^6.0.0"
   },
   "peerDependencies": {
     "ink": "^6.6.0",
