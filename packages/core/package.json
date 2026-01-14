@@ -4,8 +4,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "binaryName": "openterminal-ui-core",
-    "targets": ["x86_64-unknown-linux-gnu"]
+    "binaryName": "openterminal-ui-core"
   },
   "scripts": {
     "build": "napi build --platform --release",

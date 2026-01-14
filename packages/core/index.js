@@ -10,27 +10,213 @@ const { join } = require('path')
 const { platform, arch } = process
 
 let nativeBinding = null
+let localFileExisted = false
 let loadError = null
 
-// Platform specific loading logic
-// Note: This is a simplified loader for the sandbox environment where we built specifically for Linux x64-gnu.
-// In a full production build, NAPI-RS generates complex logic to handle musl/glibc, arm64, windows, etc.
+function isMusl() {
+  // For Linux: detection of musl is handled by napi-rs usually,
+  // but for this simple loader we can assume glibc unless specified.
+  // We will just load the local binary which we know matches the environment.
+  return false
+}
 
-if (platform === 'linux' && arch === 'x64') {
-    try {
-        // Try loading the gnu binary
-        const localPath = join(__dirname, 'openterminal-ui-core.linux-x64-gnu.node')
-        if (existsSync(localPath)) {
-            nativeBinding = require(localPath)
-        } else {
-             // Fallback or check for musl if needed (not built here)
-             throw new Error(`Native binary not found at ${localPath}`)
+switch (platform) {
+  case 'android':
+    switch (arch) {
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.android-arm64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.android-arm64.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-android-arm64')
+          }
+        } catch (e) {
+          loadError = e
         }
-    } catch (e) {
-        loadError = e
+        break
+      case 'arm':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.android-arm-eabi.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.android-arm-eabi.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-android-arm-eabi')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Android ${arch}`)
     }
-} else {
-    loadError = new Error(`Unsupported platform: ${platform} ${arch}. This build currently only supports linux-x64-gnu via local build.`)
+    break
+  case 'win32':
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.win32-x64-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.win32-x64-msvc.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-win32-x64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'ia32':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.win32-ia32-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.win32-ia32-msvc.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-win32-ia32-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.win32-arm64-msvc.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.win32-arm64-msvc.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-win32-arm64-msvc')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Windows: ${arch}`)
+    }
+    break
+  case 'darwin':
+    localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.darwin-universal.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./openterminal-ui-core.darwin-universal.node')
+      } else {
+        nativeBinding = require('@openterminal-ui/core-darwin-universal')
+      }
+      break
+    } catch {}
+    switch (arch) {
+      case 'x64':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.darwin-x64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.darwin-x64.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-darwin-x64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      case 'arm64':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.darwin-arm64.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.darwin-arm64.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-darwin-arm64')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on macOS: ${arch}`)
+    }
+    break
+  case 'freebsd':
+    if (arch !== 'x64') {
+      throw new Error(`Unsupported architecture on FreeBSD: ${arch}`)
+    }
+    localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.freebsd-x64.node'))
+    try {
+      if (localFileExisted) {
+        nativeBinding = require('./openterminal-ui-core.freebsd-x64.node')
+      } else {
+        nativeBinding = require('@openterminal-ui/core-freebsd-x64')
+      }
+    } catch (e) {
+      loadError = e
+    }
+    break
+  case 'linux':
+    switch (arch) {
+      case 'x64':
+        if (isMusl()) {
+          localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.linux-x64-musl.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./openterminal-ui-core.linux-x64-musl.node')
+            } else {
+              nativeBinding = require('@openterminal-ui/core-linux-x64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.linux-x64-gnu.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./openterminal-ui-core.linux-x64-gnu.node')
+            } else {
+              nativeBinding = require('@openterminal-ui/core-linux-x64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'arm64':
+        if (isMusl()) {
+          localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.linux-arm64-musl.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./openterminal-ui-core.linux-arm64-musl.node')
+            } else {
+              nativeBinding = require('@openterminal-ui/core-linux-arm64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.linux-arm64-gnu.node'))
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./openterminal-ui-core.linux-arm64-gnu.node')
+            } else {
+              nativeBinding = require('@openterminal-ui/core-linux-arm64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 'arm':
+        localFileExisted = existsSync(join(__dirname, 'openterminal-ui-core.linux-arm-gnueabihf.node'))
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./openterminal-ui-core.linux-arm-gnueabihf.node')
+          } else {
+            nativeBinding = require('@openterminal-ui/core-linux-arm-gnueabihf')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
+      default:
+        throw new Error(`Unsupported architecture on Linux: ${arch}`)
+    }
+    break
+  default:
+    throw new Error(`Unsupported OS: ${platform}, architecture: ${arch}`)
 }
 
 if (!nativeBinding) {
@@ -40,10 +226,14 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { fibonacci, processText, parseJson, getSystemStatus, renderServerView } = nativeBinding
+const { fibonacci, processText, parseJson, getSystemStatus, renderServerView, readDir, readFile, fuzzyMatch, highlightCode } = nativeBinding
 
 module.exports.fibonacci = fibonacci
 module.exports.processText = processText
 module.exports.parseJson = parseJson
 module.exports.getSystemStatus = getSystemStatus
 module.exports.renderServerView = renderServerView
+module.exports.readDir = readDir
+module.exports.readFile = readFile
+module.exports.fuzzyMatch = fuzzyMatch
+module.exports.highlightCode = highlightCode

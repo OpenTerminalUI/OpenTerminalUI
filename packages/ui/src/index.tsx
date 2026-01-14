@@ -82,3 +82,6 @@ export { Text, Box } from 'ink';
 export { Button } from './components/Button';
 export { Input } from './components/Input';
 export { Dashboard } from './components/Dashboard';
+export { FileTree } from './components/FileTree';
+export { CodeViewer } from './components/CodeViewer';
+export { CommandPalette } from './components/CommandPalette';
