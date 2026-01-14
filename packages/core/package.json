@@ -7,7 +7,7 @@
     "binaryName": "openterminal-ui-core"
   },
   "scripts": {
-    "build": "napi build --platform --release",
+    "build": "napi build --platform --release --dts index.d.ts",
     "build:debug": "napi build --platform"
   },
   "devDependencies": {
