@@ -1,0 +1,133 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["CLAUDE.md", ".cursor/rules/*.mdc"],
+  "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "chrome-devtools-mcp@latest"],
+      "enabled": true
+    },
+    "web-search-prime": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:ZAI_API_KEY}"
+      },
+      "enabled": true
+    },
+    "web-reader": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/web_reader/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:ZAI_API_KEY}"
+      },
+      "enabled": true
+    },
+    "zai-mcp-server": {
+      "type": "local",
+      "command": ["npx","-y","@z_ai/mcp-server"],
+      "environment": {
+        "Z_AI_API_KEY": "{env:ZAI_API_KEY}",
+        "Z_AI_MODE": "ZAI"
+      }
+    },
+    "zread": {
+      "type": "remote",
+      "url": "https://api.z.ai/api/mcp/zread/mcp",
+      "headers": {
+        "Authorization": "Bearer {env:ZAI_API_KEY}"
+      },
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    }
+  },
+  "permission": {
+    "*": "allow",
+    "external_directory": "ask",
+    "doom_loop": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    },
+    "bash": {
+      "*": "allow",
+      "git push*": "ask",
+      "git push --force*": "deny",
+      "rm -rf *": "deny",
+      "sudo *": "ask"
+    },
+    "edit": "allow",
+    "skill": "allow"
+  },
+  "tools": {
+    "lsp": true,
+    "webfetch": true,
+    "skill": true
+  },
+  "formatter": {
+    "biome": {
+      "command": ["bun", "run", "format", "$FILE"],
+      "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+    }
+  },
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "description": "Full development agent with all tools enabled for building features",
+      "permission": {
+        "bash": "allow",
+        "edit": "allow"
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "description": "Read-only analysis and planning agent",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": {
+          "*": "ask",
+          "bun run*": "allow",
+          "moon *": "allow",
+          "git status*": "allow",
+          "git diff*": "allow",
+          "git log*": "allow"
+        }
+      }
+    },
+    "code-review-expert": {
+      "mode": "subagent",
+      "description": "Reviews code for best practices, performance, security, and maintainability",
+      "prompt": "{file:.opencode/agent/code-review-expert.md}",
+      "temperature": 0.2,
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "architecture-documenter": {
+      "mode": "subagent",
+      "description": "Creates comprehensive architecture documentation explaining component interactions",
+      "prompt": "{file:.opencode/agent/architecture-documenter.md}",
+      "temperature": 0.3,
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": false
+      }
+    }
+  },
+  "command": {
+    "create-pr": {
+      "description": "Create a PR with semantic commit title and informative description",
+      "template": "{file:.opencode/command/create-pr.md}"
+    }
+  }
+}
