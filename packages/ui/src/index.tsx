@@ -79,3 +79,6 @@ export const Card: React.FC<CardProps> = ({
 // ============================================
 
 export { Text, Box } from 'ink';
+export { Button } from './components/Button';
+export { Input } from './components/Input';
+export { Dashboard } from './components/Dashboard';

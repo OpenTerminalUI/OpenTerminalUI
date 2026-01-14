@@ -4,10 +4,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "openterminal-ui-core",
-    "triples": {
-      "defaults": true
-    }
+    "binaryName": "openterminal-ui-core",
+    "targets": ["x86_64-unknown-linux-gnu"]
   },
   "scripts": {
     "build": "napi build --platform --release",
