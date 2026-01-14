@@ -4,7 +4,7 @@
 CHANGED_FILES=$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1)
 
 # Check if any Rust files in packages/core changed
-RUST_CHANGED=$(echo "$CHANGED_FILES" | grep -E "^packages/core/" || true)
+RUST_CHANGED=$(echo "$CHANGED_FILES" | grep -E "^packages/core/.*\.rs$" || true)
 
 # Check if any TS/TSX files in packages/ui changed
 TS_CHANGED=$(echo "$CHANGED_FILES" | grep -E "^packages/ui/" || true)
@@ -14,7 +14,7 @@ echo "🚀 Running pre-push checks..."
 # Run Rust lint if core changed
 if [ -n "$RUST_CHANGED" ]; then
   echo "🦀 Rust files changed, running cargo clippy..."
-  cargo clippy --all-targets --all-features -- -D warnings
+  (cd packages/core && cargo clippy --all-targets --all-features -- -D warnings)
   if [ $? -ne 0 ]; then
     echo "❌ Rust lint failed. Push aborted."
     exit 1
