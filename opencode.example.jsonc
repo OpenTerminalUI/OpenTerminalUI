@@ -11,7 +11,11 @@
       "type": "remote",
       "url": "https://api.z.ai/api/mcp/web_search_prime/mcp",
       "headers": {
+<<<<<<< HEAD
         "Authorization": "Bearer {env:ZAI_API_KEY}"
+=======
+        "Authorization": "Bearer 0c3cc7363e8b46cb96cf866757410c91.2OBRA83VAkQsRtdE"
+>>>>>>> 30cb1f5 (workflow: udpdate opencode config)
       },
       "enabled": true
     },
@@ -19,6 +23,7 @@
       "type": "remote",
       "url": "https://api.z.ai/api/mcp/web_reader/mcp",
       "headers": {
+<<<<<<< HEAD
         "Authorization": "Bearer {env:ZAI_API_KEY}"
       },
       "enabled": true
@@ -31,13 +36,32 @@
         "Z_AI_MODE": "ZAI"
       }
     },
+=======
+        "Authorization": "Bearer 0c3cc7363e8b46cb96cf866757410c91.2OBRA83VAkQsRtdE"
+      },
+      "enabled": true
+    },
+>>>>>>> 30cb1f5 (workflow: udpdate opencode config)
     "zread": {
       "type": "remote",
       "url": "https://api.z.ai/api/mcp/zread/mcp",
       "headers": {
+<<<<<<< HEAD
         "Authorization": "Bearer {env:ZAI_API_KEY}"
       },
       "enabled": true
+=======
+        "Authorization": "Bearer 0c3cc7363e8b46cb96cf866757410c91.2OBRA83VAkQsRtdE"
+      }
+    },
+    "zai-mcp-server": {
+      "type": "local",
+      "command": ["npx", "-y", "@z_ai/mcp-server"],
+      "environment": {
+        "Z_AI_API_KEY": "0c3cc7363e8b46cb96cf866757410c91.2OBRA83VAkQsRtdE",
+        "Z_AI_MODE": "ZAI"
+      }
+>>>>>>> 30cb1f5 (workflow: udpdate opencode config)
     },
     "context7": {
       "type": "remote",
