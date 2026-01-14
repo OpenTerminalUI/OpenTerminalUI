@@ -18,6 +18,7 @@
     "editor": "bun run scripts/run-editor.ts"
   },
   "dependencies": {
+    "@openterminal-ui/core": "workspace:*",
     "ink-text-input": "^6.0.0"
   },
   "peerDependencies": {
@@ -25,7 +26,6 @@
     "react": "^19.2.3"
   },
   "devDependencies": {
-    "@openterminal-ui/core": "workspace:*",
     "@types/react": "^19.2.8",
     "ink": "^6.6.0",
     "react": "^19.2.3",

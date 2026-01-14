@@ -1,6 +1,6 @@
-import React from 'react';
 import { Box, Text } from 'ink';
 import TextInput from 'ink-text-input';
+import type React from 'react';
 
 export interface InputProps {
   label?: string;
@@ -17,11 +17,20 @@ export const Input: React.FC<InputProps> = ({
   onChange,
   onSubmit,
   isFocused,
-  placeholder
+  placeholder,
 }) => {
   return (
-    <Box flexDirection="column" borderStyle={isFocused ? "round" : undefined} borderColor="blue" paddingX={1}>
-      {label && <Text bold color="blue">{label}</Text>}
+    <Box
+      flexDirection="column"
+      borderStyle={isFocused ? 'round' : undefined}
+      borderColor="blue"
+      paddingX={1}
+    >
+      {label && (
+        <Text bold color="blue">
+          {label}
+        </Text>
+      )}
       <Box>
         <Text color="green">❯ </Text>
         <TextInput

@@ -7,10 +7,7 @@
   "theme": "dark",
 
   // Plugins
-  "plugins": [
-    "oh-my-opencode",
-    "frontend-design"
-  ],
+  "plugins": ["oh-my-opencode", "frontend-design"],
 
   // MCP Servers
   "mcpServers": {

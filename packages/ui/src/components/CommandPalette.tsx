@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { fuzzyMatch } from '@openterminal-ui/core';
 import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
-import { fuzzyMatch } from '@openterminal-ui/core';
+import React, { useState } from 'react';
 
 export interface CommandPaletteProps {
   isVisible: boolean;
@@ -10,16 +10,21 @@ export interface CommandPaletteProps {
   commands: string[];
 }
 
-export const CommandPalette: React.FC<CommandPaletteProps> = ({ isVisible, onClose, onSelect, commands }) => {
+export const CommandPalette: React.FC<CommandPaletteProps> = ({
+  isVisible,
+  onClose,
+  onSelect,
+  commands,
+}) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   // Get matches from Rust
   const matches = React.useMemo(() => {
-     return fuzzyMatch(query, commands);
+    return fuzzyMatch(query, commands);
   }, [query, commands]);
 
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (!isVisible) return;
 
     if (key.escape) {
@@ -27,10 +32,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isVisible, onClo
       setQuery('');
     }
     if (key.upArrow) {
-      setSelectedIndex(prev => Math.max(0, prev - 1));
+      setSelectedIndex((prev) => Math.max(0, prev - 1));
     }
     if (key.downArrow) {
-      setSelectedIndex(prev => Math.min(matches.length - 1, prev + 1));
+      setSelectedIndex((prev) => Math.min(matches.length - 1, prev + 1));
     }
     if (key.return) {
       if (matches[selectedIndex]) {
@@ -56,18 +61,22 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isVisible, onClo
       >
         <Text bold>Command Palette</Text>
         <Box borderStyle="single" borderColor="gray">
-             <Text color="magenta">❯ </Text>
-             <TextInput value={query} onChange={(v) => {
-                 setQuery(v);
-                 setSelectedIndex(0);
-             }} focus={true} />
+          <Text color="magenta">❯ </Text>
+          <TextInput
+            value={query}
+            onChange={(v) => {
+              setQuery(v);
+              setSelectedIndex(0);
+            }}
+            focus={true}
+          />
         </Box>
         <Box flexDirection="column" marginTop={1}>
-            {matches.slice(0, 10).map((cmd, i) => (
-                <Text key={cmd} color={i === selectedIndex ? "magenta" : "white"}>
-                    {i === selectedIndex ? "> " : "  "} {cmd}
-                </Text>
-            ))}
+          {matches.slice(0, 10).map((cmd, i) => (
+            <Text key={cmd} color={i === selectedIndex ? 'magenta' : 'white'}>
+              {i === selectedIndex ? '> ' : '  '} {cmd}
+            </Text>
+          ))}
         </Box>
       </Box>
     </Box>
