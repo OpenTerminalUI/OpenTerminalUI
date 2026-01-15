@@ -239,7 +239,6 @@ if (!nativeBinding) {
 }
 
 const {
-  fibonacci,
   processText,
   parseJson,
   getSystemStatus,
@@ -250,7 +249,6 @@ const {
   highlightCode,
 } = nativeBinding;
 
-module.exports.fibonacci = fibonacci;
 module.exports.processText = processText;
 module.exports.parseJson = parseJson;
 module.exports.getSystemStatus = getSystemStatus;

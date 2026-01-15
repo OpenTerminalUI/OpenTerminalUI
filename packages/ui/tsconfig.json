@@ -2,8 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "noEmit": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "examples/**/*", "jsx-runtime.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

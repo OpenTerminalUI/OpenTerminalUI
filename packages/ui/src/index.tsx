@@ -1,78 +1,58 @@
-import { Box, Text } from 'ink';
-import type React from 'react';
+export * from './core';
+export * from './elements';
+export * from './solid-components';
+export {
+  useRenderer,
+  useTerminalDimensions,
+  useKeyboard,
+  onResize,
+  RendererContext,
+} from './elements/hooks';
+export { createRenderer as createSolidRenderer } from './renderer/universal';
 
-// ============================================
-// 📦 Basic Components
-// ============================================
+import { Renderer, type RendererConfig } from './core';
+import { _render, createComponent, RendererContext } from './elements';
+import type { JSX } from 'solid-js';
 
-export interface TitleProps {
-  children: React.ReactNode;
-  color?: string;
-}
+export async function render(
+  node: () => JSX.Element,
+  rendererOrConfig: Renderer | RendererConfig = {},
+): Promise<() => void> {
+  let isDisposed = false;
+  let dispose: () => void;
 
-/**
- * Title component for displaying styled headings
- */
-export const Title: React.FC<TitleProps> = ({ children, color = 'cyan' }) => (
-  <Text bold color={color}>
-    {children}
-  </Text>
-);
+  const renderer =
+    rendererOrConfig instanceof Renderer ? rendererOrConfig : new Renderer(rendererOrConfig);
 
-export interface StatusProps {
-  status: 'success' | 'error' | 'warning' | 'info';
-  message: string;
-}
+  if (!(rendererOrConfig instanceof Renderer)) {
+    await renderer.start();
+  }
 
-/**
- * Status component for displaying status messages with icons
- */
-export const Status: React.FC<StatusProps> = ({ status, message }) => {
-  const config = {
-    success: { icon: '✓', color: 'green' },
-    error: { icon: '✗', color: 'red' },
-    warning: { icon: '⚠', color: 'yellow' },
-    info: { icon: 'ℹ', color: 'blue' },
-  } as const;
+  renderer.on('destroy', () => {
+    if (!isDisposed) {
+      isDisposed = true;
+      dispose?.();
+    }
+  });
 
-  const { icon, color } = config[status];
-
-  return (
-    <Text>
-      <Text color={color}>{icon}</Text>
-      <Text> {message}</Text>
-    </Text>
+  dispose = _render(
+    () =>
+      createComponent(RendererContext.Provider, {
+        get value() {
+          return renderer;
+        },
+        get children() {
+          return createComponent(node, {});
+        },
+      }),
+    renderer.root,
   );
-};
 
-export interface CardProps {
-  title?: string;
-  children: React.ReactNode;
-  borderColor?: string;
+  return () => {
+    if (!isDisposed) {
+      isDisposed = true;
+      dispose?.();
+      renderer.destroy();
+    }
+  };
 }
-
-/**
- * Card component with optional title and border
- */
-export const Card: React.FC<CardProps> = ({ title, children, borderColor = 'gray' }) => (
-  <Box flexDirection="column" borderStyle="round" borderColor={borderColor} paddingX={1}>
-    {title && (
-      <Box marginBottom={1}>
-        <Title>{title}</Title>
-      </Box>
-    )}
-    {children}
-  </Box>
-);
-
-// ============================================
-// 📤 Exports
-// ============================================
-
-export { Box, Text } from 'ink';
-export { Button } from './components/Button';
-export { CodeViewer } from './components/CodeViewer';
-export { CommandPalette } from './components/CommandPalette';
-export { Dashboard } from './components/Dashboard';
-export { FileTree } from './components/FileTree';
-export { Input } from './components/Input';
