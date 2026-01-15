@@ -1,4 +1,4 @@
-import { ANSI, RGBA, parseColor, type ColorInput } from './ansi';
+import { ANSI, type ColorInput, parseColor, RGBA } from './ansi';
 
 export interface Cell {
   char: string;
@@ -230,13 +230,13 @@ export class Buffer {
   }
 
   private buildFgAnsi(cell: Cell, state: { lastFg: RGBA | null }): string {
-    if (state.lastFg && state.lastFg.equals(cell.fg)) return '';
+    if (state.lastFg?.equals(cell.fg)) return '';
     state.lastFg = cell.fg;
     return ANSI.setRgbForeground(cell.fg.r, cell.fg.g, cell.fg.b);
   }
 
   private buildBgAnsi(cell: Cell, state: { lastBg: RGBA | null }): string {
-    if (state.lastBg && state.lastBg.equals(cell.bg)) return '';
+    if (state.lastBg?.equals(cell.bg)) return '';
     state.lastBg = cell.bg;
     return cell.bg.isTransparent()
       ? ANSI.bgDefault

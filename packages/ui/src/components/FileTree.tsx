@@ -59,14 +59,13 @@ export const FileTree: React.FC<FileTreeProps> = ({
         {currentPath}
       </Text>
       <Box flexDirection="column">
-        {files.map((file, i) => (
+        {files.map((file, index) => (
           <Text
-            // biome-ignore lint/suspicious/noArrayIndexKey: filesystem entries are unique by name/index in this list
-            key={file.name + i}
-            color={i === selectedIndex ? 'green' : file.is_dir ? 'cyan' : 'white'}
+            key={file.name}
+            color={index === selectedIndex ? 'green' : file.is_dir ? 'cyan' : 'white'}
             wrap="truncate"
           >
-            {i === selectedIndex ? '> ' : '  '}
+            {index === selectedIndex ? '> ' : '  '}
             {file.is_dir ? '📁 ' : '📄 '}
             {file.name}
           </Text>

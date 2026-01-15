@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
-import path from 'node:path';
 import fs from 'node:fs';
+import path from 'node:path';
 import { transformSync } from '@babel/core';
 
 const uiPkgDir = process.cwd().endsWith('ui')

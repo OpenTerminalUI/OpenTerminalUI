@@ -1,5 +1,5 @@
 import { fuzzyMatch } from '@openterminal-ui/core';
-import { createSignal, createMemo, Show, For } from 'solid-js';
+import { createMemo, createSignal, For, Show } from 'solid-js';
 import { useKeyboard } from '../elements/hooks';
 
 export interface CommandPaletteProps {
@@ -17,36 +17,54 @@ export function CommandPalette(props: CommandPaletteProps) {
     return fuzzyMatch(query(), props.commands);
   });
 
+  const resetState = () => {
+    setQuery('');
+    setSelectedIndex(0);
+  };
+
+  const handleEscape = () => {
+    props.onClose();
+    resetState();
+  };
+
+  const handleNavigation = (key: string) => {
+    if (key === 'up') {
+      setSelectedIndex((prev) => Math.max(0, prev - 1));
+    } else if (key === 'down') {
+      setSelectedIndex((prev) => Math.min(matches().length - 1, prev + 1));
+    }
+  };
+
+  const handleSelect = () => {
+    const selected = matches()[selectedIndex()];
+    if (selected) {
+      props.onSelect(selected);
+      props.onClose();
+      resetState();
+    }
+  };
+
+  const handleTextInput = (key: string) => {
+    if (key === 'backspace') {
+      setQuery((prev) => prev.slice(0, -1));
+      setSelectedIndex(0);
+    } else if (key.length === 1 && key.match(/[a-zA-Z0-9\s\-_]/)) {
+      setQuery((prev) => prev + key);
+      setSelectedIndex(0);
+    }
+  };
+
   useKeyboard((key) => {
     if (!props.isVisible) return;
 
     if (key === 'escape') {
-      props.onClose();
-      setQuery('');
-      setSelectedIndex(0);
-    }
-    if (key === 'up') {
-      setSelectedIndex((prev) => Math.max(0, prev - 1));
-    }
-    if (key === 'down') {
-      setSelectedIndex((prev) => Math.min(matches().length - 1, prev + 1));
-    }
-    if (key === 'return') {
-      const selected = matches()[selectedIndex()];
-      if (selected) {
-        props.onSelect(selected);
-        props.onClose();
-        setQuery('');
-        setSelectedIndex(0);
-      }
-    }
-    if (key === 'backspace') {
-      setQuery((prev) => prev.slice(0, -1));
-      setSelectedIndex(0);
-    }
-    if (key.length === 1 && key.match(/[a-zA-Z0-9\s\-_]/)) {
-      setQuery((prev) => prev + key);
-      setSelectedIndex(0);
+      handleEscape();
+    } else if (key === 'up' || key === 'down') {
+      handleNavigation(key);
+    } else if (key === 'return') {
+      handleSelect();
+    } else {
+      handleTextInput(key);
     }
   });
 

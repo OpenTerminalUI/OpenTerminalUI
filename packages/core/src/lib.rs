@@ -133,7 +133,6 @@ pub fn fuzzy_match(query: String, items: Vec<String>) -> Vec<String> {
             let mut i_chars = item_lower.chars();
 
             let mut current_q = q_chars.next();
-            let mut score = 0;
             let mut found = true;
 
             // Very basic check: all chars must exist in order
@@ -151,11 +150,11 @@ pub fn fuzzy_match(query: String, items: Vec<String>) -> Vec<String> {
 
             if found {
                 // Determine relevance (e.g., contains exact substring)
-                if item_lower.contains(&query_lower) {
-                    score = 100; // high priority
+                let score = if item_lower.contains(&query_lower) {
+                    100 // high priority
                 } else {
-                    score = 50;
-                }
+                    50
+                };
                 Some((item, score))
             } else {
                 None

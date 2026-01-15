@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { readDir } from '@openterminal-ui/core';
-import { createSignal, createEffect, For } from 'solid-js';
+import { createEffect, createSignal, For } from 'solid-js';
 import { useKeyboard } from '../elements/hooks';
 
 interface FileEntry {

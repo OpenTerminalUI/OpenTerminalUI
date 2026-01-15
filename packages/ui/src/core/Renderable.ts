@@ -1,16 +1,16 @@
+import { EventEmitter } from 'node:events';
 import Yoga, {
+  Align,
   Display,
   Edge,
   FlexDirection,
-  Align,
   Justify,
-  Wrap,
   Overflow,
   PositionType,
+  Wrap,
   type Node as YogaNode,
 } from 'yoga-layout';
 import type { Buffer } from './Buffer';
-import { EventEmitter } from 'node:events';
 
 export interface RenderContext {
   requestRender(): void;
@@ -80,7 +80,6 @@ function parseFlexDirection(value?: FlexDirectionString): FlexDirection {
       return FlexDirection.RowReverse;
     case 'column-reverse':
       return FlexDirection.ColumnReverse;
-    case 'column':
     default:
       return FlexDirection.Column;
   }
@@ -96,7 +95,6 @@ function parseAlign(value?: AlignString): Align {
       return Align.Stretch;
     case 'auto':
       return Align.Auto;
-    case 'flex-start':
     default:
       return Align.FlexStart;
   }
@@ -114,7 +112,6 @@ function parseJustify(value?: JustifyString): Justify {
       return Justify.SpaceAround;
     case 'space-evenly':
       return Justify.SpaceEvenly;
-    case 'flex-start':
     default:
       return Justify.FlexStart;
   }
@@ -126,7 +123,6 @@ function parseWrap(value?: WrapString): Wrap {
       return Wrap.Wrap;
     case 'wrap-reverse':
       return Wrap.WrapReverse;
-    case 'nowrap':
     default:
       return Wrap.NoWrap;
   }
@@ -138,7 +134,6 @@ function parseOverflow(value?: OverflowString): Overflow {
       return Overflow.Hidden;
     case 'scroll':
       return Overflow.Scroll;
-    case 'visible':
     default:
       return Overflow.Visible;
   }
@@ -446,7 +441,7 @@ export abstract class Renderable extends EventEmitter {
     }
   }
 
-  protected renderSelf(buffer: Buffer, deltaTime: number): void {}
+  protected renderSelf(_buffer: Buffer, _deltaTime: number): void {}
 
   destroy(): void {
     if (this._isDestroyed) return;

@@ -1,8 +1,8 @@
-import { Buffer } from './Buffer';
-import { ANSI, RGBA, parseColor, type ColorInput } from './ansi';
-import { Renderable, type RenderContext } from './Renderable';
 import { EventEmitter } from 'node:events';
 import { Direction, FlexDirection } from 'yoga-layout';
+import { ANSI, type ColorInput, parseColor, RGBA } from './ansi';
+import { Buffer } from './Buffer';
+import { Renderable, type RenderContext } from './Renderable';
 
 export interface RendererConfig {
   stdin?: NodeJS.ReadStream;

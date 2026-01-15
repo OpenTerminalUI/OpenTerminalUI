@@ -1,6 +1,6 @@
 import { useContext } from 'solid-js';
-import { BoxRenderable, TextRenderable } from '../core';
 import type { Renderable } from '../core';
+import { BoxRenderable, TextRenderable } from '../core';
 import { createRenderer } from '../renderer/universal';
 import { RendererContext } from './hooks';
 

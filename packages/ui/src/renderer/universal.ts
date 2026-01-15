@@ -1,10 +1,10 @@
 import {
-  createRoot,
-  createRenderEffect,
-  createMemo,
   createComponent,
-  untrack,
+  createMemo,
+  createRenderEffect,
+  createRoot,
   mergeProps,
+  untrack,
 } from 'solid-js';
 
 interface RendererOptions<T> {

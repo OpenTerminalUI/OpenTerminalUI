@@ -1,18 +1,18 @@
 export * from './core';
 export * from './elements';
-export * from './solid-components';
 export {
-  useRenderer,
-  useTerminalDimensions,
-  useKeyboard,
   onResize,
   RendererContext,
+  useKeyboard,
+  useRenderer,
+  useTerminalDimensions,
 } from './elements/hooks';
 export { createRenderer as createSolidRenderer } from './renderer/universal';
+export * from './solid-components';
 
+import type { JSX } from 'solid-js';
 import { Renderer, type RendererConfig } from './core';
 import { _render, createComponent, RendererContext } from './elements';
-import type { JSX } from 'solid-js';
 
 export async function render(
   node: () => JSX.Element,

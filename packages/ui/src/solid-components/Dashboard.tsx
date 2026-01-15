@@ -1,5 +1,5 @@
 import { getSystemStatus, renderServerView, type SystemStatus } from '@openterminal-ui/core';
-import { createSignal, onCleanup, onMount, For, Show, type Accessor } from 'solid-js';
+import { type Accessor, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 
 export function Dashboard() {
   const [data, setData] = createSignal<SystemStatus | null>(null);

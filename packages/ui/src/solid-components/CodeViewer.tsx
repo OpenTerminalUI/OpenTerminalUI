@@ -1,5 +1,5 @@
 import { highlightCode, readFile } from '@openterminal-ui/core';
-import { createSignal, createEffect } from 'solid-js';
+import { createEffect, createSignal } from 'solid-js';
 
 export interface CodeViewerProps {
   filePath: string | null;

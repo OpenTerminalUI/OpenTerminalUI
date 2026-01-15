@@ -1,6 +1,6 @@
-import { Renderable, type RenderableOptions } from './Renderable';
-import type { Buffer } from './Buffer';
 import type { ColorInput } from './ansi';
+import type { Buffer } from './Buffer';
+import { Renderable, type RenderableOptions } from './Renderable';
 
 export interface TextRenderableOptions extends RenderableOptions {
   content?: string;
@@ -38,7 +38,7 @@ export class TextRenderable extends Renderable {
     this.requestRender();
   }
 
-  protected override renderSelf(buffer: Buffer, deltaTime: number): void {
+  protected override renderSelf(buffer: Buffer, _deltaTime: number): void {
     if (!this._content) return;
 
     const lines = this._content.split('\n');

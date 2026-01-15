@@ -50,9 +50,8 @@ export const Dashboard: React.FC = () => {
 
         <Box flexDirection="column" borderStyle="single" borderColor="yellow" padding={1}>
           <Text bold>Processes:</Text>
-          {data.processes.map((p, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: demo data has no unique ids
-            <Text key={i}>- {p}</Text>
+          {data.processes.map((p) => (
+            <Text key={p}>- {p}</Text>
           ))}
         </Box>
       </Box>

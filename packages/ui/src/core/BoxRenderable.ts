@@ -1,6 +1,6 @@
-import { Renderable, type RenderableOptions } from './Renderable';
-import type { Buffer } from './Buffer';
 import type { ColorInput } from './ansi';
+import type { Buffer } from './Buffer';
+import { Renderable, type RenderableOptions } from './Renderable';
 
 export type BorderStyle = 'single' | 'double' | 'round' | 'none';
 
@@ -22,7 +22,7 @@ export class BoxRenderable extends Renderable {
     this.backgroundColor = options.backgroundColor;
   }
 
-  protected override renderSelf(buffer: Buffer, deltaTime: number): void {
+  protected override renderSelf(buffer: Buffer, _deltaTime: number): void {
     const hasBorder = this.borderStyle !== 'none';
 
     if (hasBorder || this.backgroundColor) {

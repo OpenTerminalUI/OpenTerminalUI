@@ -1,5 +1,5 @@
+import { createEffect, createSignal } from 'solid-js';
 import { render } from '../src';
-import { createSignal, createEffect } from 'solid-js';
 
 const App = () => {
   const [count, setCount] = createSignal(0);
