@@ -2,7 +2,9 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -17,9 +19,23 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@openterminal-ui/core": ["./packages/core"],
-      "@openterminal-ui/ui": ["./packages/ui/src"]
+      "@openterminal-ui/core": [
+        "./packages/core"
+      ],
+      "@openterminal-ui/ui": [
+        "./packages/ui/src"
+      ]
     }
   },
-  "exclude": ["node_modules", "dist", "build", "target"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "target"
+  ],
+  "references": [
+    {
+      "path": "packages/ui"
+    }
+  ]
 }

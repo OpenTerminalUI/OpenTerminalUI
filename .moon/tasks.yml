@@ -1,10 +1,8 @@
-language: 'typescript'
-
 tasks:
   ncu:
-    command: 'bunx npm-check-updates'
+    command: "bun npm-check-updates"
     local: true
-  
+
   ncu-update:
-    command: 'bunx npm-check-updates -u'
+    command: "bun npm-check-updates -u"
     local: true

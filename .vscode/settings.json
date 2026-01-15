@@ -9,7 +9,9 @@
     "openterminal",
     "oxalica",
     "pkgs",
-    "rustflags"
+    "rolldown",
+    "rustflags",
+    "tsdown"
   ],
   "chat.promptFilesRecommendations": {
     "speckit.constitution": true,
@@ -21,5 +23,8 @@
   "chat.tools.terminal.autoApprove": {
     ".specify/scripts/bash/": true,
     ".specify/scripts/powershell/": true
-  }
+  },
+  "rust-analyzer.linkedProjects": ["./packages/core/Cargo.toml"],
+  "rust-analyzer.cargo.buildScripts.enable": true,
+  "rust-analyzer.procMacro.enable": true
 }

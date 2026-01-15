@@ -5,6 +5,15 @@
     "clientKind": "git",
     "useIgnoreFile": true
   },
+  "files": {
+    "includes": ["packages/**/*.ts", "packages/**/*.tsx", "packages/**/*.js", "packages/**/*.jsx"]
+  },
+  "overrides": [
+    {
+      "includes": ["packages/ui/src/renderer/universal.ts"],
+      "linter": { "enabled": false }
+    }
+  ],
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "formatter": {
     "enabled": true,

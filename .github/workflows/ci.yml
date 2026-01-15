@@ -42,12 +42,21 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/core
+    env:
+      CARGO_HOME: /home/runner/.cargo
+      CARGO_INCREMENTAL: '0'
+      CACHE_ON_FAILURE: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/core -> target
       - name: Check formatting
         run: cargo fmt --all -- --check
       - name: Clippy
@@ -69,9 +78,15 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.rust == 'true'
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/core
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: packages/core -> target
       - name: Install cargo-audit
         run: cargo install cargo-audit
       - name: Security audit
